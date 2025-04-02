@@ -57,6 +57,7 @@ public abstract class LBaseActivity extends AppCompatActivity {
         setContentView(getContextView());//设置xml页面
         mLCustomToolBar = findViewById(R.id.toolbar);//加载标题控件，需要include l_view_title
         initView();//初始化控件
+        addBaseListener();//添加基类的事件
         addListener();//给控件添加值和添加事件
     }
 
@@ -78,7 +79,18 @@ public abstract class LBaseActivity extends AppCompatActivity {
             unregisterReceiver(mReceiver);
     }
 
-    protected abstract void initBaseData();//基类要统一实现的方法
+    protected void initBaseData(){
+        registerReceiver();
+    }
+    protected void addBaseListener(){
+
+    }
+
+    public void closeActivity(View view){
+        finish();
+    }
+
+//    protected abstract void initBaseData();//基类要统一实现的方法
     protected abstract void initData();//请求页面数据
     protected abstract @LayoutRes int getContextView();//获取页面的xml文件
     protected abstract void initView();//初始化控件
