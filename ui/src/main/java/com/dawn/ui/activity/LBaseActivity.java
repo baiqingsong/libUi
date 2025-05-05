@@ -75,8 +75,10 @@ public abstract class LBaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         LActivityUtil.removeActivity(this);
-        if(mReceiver != null)
+        if(mReceiver != null) {
             unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
     }
 
     protected void initBaseData(){
@@ -363,10 +365,12 @@ public abstract class LBaseActivity extends AppCompatActivity {
         if(LStringUtil.isEmpty(getReceiverAction())){
             return;
         }
-        mReceiver = new ActivityBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(getReceiverAction());
-        registerReceiver(mReceiver, intentFilter);
+        if(mReceiver == null){
+            mReceiver = new ActivityBroadcastReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(getReceiverAction());
+            registerReceiver(mReceiver, intentFilter);
+        }
     }
 
     protected class ActivityBroadcastReceiver extends BroadcastReceiver {
